@@ -27,8 +27,32 @@ get '/artists' do
   erb :'/artists/index'
 end
 
-
-
 # - Page for each artist.  Has name, genre, and then name of each of their songs
+
+get '/artists/:artist_name' do
+  # OPTION 1
+  # @artist = {
+  #   name: 'U2',
+  #   genre: 'rock',
+  #   songs: ['Ultraviolet', 'One']
+  # }
+
+  # OPTION 2 (worse! read from CSV twice)
+  # @artist = {
+  #   name: 'U2',
+  #   genre: 'rock'
+  # }
+
+  # @songs = ['Ultraviolet', 'One']
+
+  artist_info = get_artist_info(params[:artist_name])
+
+  @artist = artist_info[:name]
+  @genre = artist_info[:genre]
+  @songs = artist_info[:songs]
+
+  erb :'/artists/show'
+end
+
 # - Page that lists all songs
 # - Page for each song, showing name of song & artist name
