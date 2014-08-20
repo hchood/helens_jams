@@ -1,7 +1,25 @@
 require 'sinatra'
+require 'sinatra/reloader'
+require 'csv'
+require 'pry'
 
 # Create pages for:
 # - Page that lists all the artists & links to artist's page
+
+# ["Empire of the Sun", "U2", "Jay-Z", "The Neighbourhood", "Interpol"]
+def get_artists
+  artists = []
+
+  CSV.foreach('songs.csv', headers: true) do |row|
+    artist_name = row["Artist"]
+
+    if !artists.include?(artist_name)
+      artists << artist_name
+    end
+  end
+
+  artists
+end
 
 get '/artists' do
   @artists = get_artists
